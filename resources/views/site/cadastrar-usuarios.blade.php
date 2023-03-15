@@ -18,13 +18,12 @@
                     <div>
                         <label for="password">Senha</label>
                         <input type="password" name="password" id="password" placeholder="Digite sua senha!">
-                        <a href="/recuperar-senha">Recuperação de senha</a>
+                        <a>Boa! Adicione mais caracteres para reforçar a segurança</a>
                     </div>
                 </form>
             </div>
             <div class="container_card_buttons">
-                <button type="button" onclick="cadastrar()">Cadastrar</button>
-                <button type="button" onclick="submit()">Login</button>
+                <button type="button" onclick="submit()">Criar conta grátis</button>
             </div>
         </div>
     </div>
@@ -145,18 +144,15 @@
 
     @section('scripts')
         <script>
-            async function cadastrar(){ 
-                window.location.href = "/cadastrar";
-            }
-
             async function submit(){
                 try {
                     const formulario = document.querySelector("#formulario_login");
-                    const formData   = new FormData(formulario);
-                    const response   = await fetch("/login",{ method: "POST", body: formData });
-                    const person     = await response.json();
+                    const formData = new FormData(formulario);
+                    const response = await fetch("/cadastrar",{ method: "POST", body: formData });
+                    const person   = await response.json();
                     // alert(person.message);
-                    if(person.status) window.location.href = '/home';
+                    sessionStorage.setItem("usuario_id", person.id_usuarios);
+                    window.location.href = '/cadastrar/pessoas';
                 } catch (error) {
                     alert(error);
                 }

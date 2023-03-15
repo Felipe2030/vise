@@ -7,29 +7,42 @@
                     <img src="{{URL::asset('assets/img/logo.png')}}" alt="logo">
                 </div>
                 <div class="container_card_form_descricao">
-                    <span>Aumente significativamente suas vendas com as soluções digitais que oferecemos.</span>
+                    <span>Vamos configurar sua conta, leva só 1 minuto.</span>
                 </div>
                 <form id="formulario_login" action="/login" method="POST">
                     <div>
-                        <label for="email">E-email</label>
-                        <input type="email" name="email" id="email" placeholder="Digite seu email!">
+                        <label for="estabelecimento">Nome do estabelecimento</label>
+                        <input type="text" name="estabelecimento" id="estabelecimento" placeholder="Digite do estabelecimento!">
                     </div>
 
                     <div>
-                        <label for="password">Senha</label>
-                        <input type="password" name="password" id="password" placeholder="Digite sua senha!">
-                        <a href="/recuperar-senha">Recuperação de senha</a>
+                        <label for="documento">Documento pessoal ou da empresa</label>
+                        <select name="documento" id="documento">
+                            <option value="cnpj">CNPJ</option>
+                            <option value="cpf">CPF</option>
+                        </select>
                     </div>
+
+                    <div class="cnpj">
+                        <label>Qual o número do CNPJ ?</label>
+                        <input type="text" name="numero_documento" placeholder="Digite sua cnpj !">
+                    </div>
+
+                    <div class="cpf d-none">
+                        <label>Qual o número do CPF ?</label>
+                        <input type="text" name="numero_documento" placeholder="Digite sua cpf !">
+                    </div>                   
                 </form>
             </div>
             <div class="container_card_buttons">
-                <button type="button" onclick="cadastrar()">Cadastrar</button>
-                <button type="button" onclick="submit()">Login</button>
+                <button type="button" onclick="submit()">Avançar</button>
             </div>
         </div>
     </div>
 
     <style>
+        .d-none {  display: none; }
+
         .container {
             display: flex;
             justify-content: center;
@@ -100,6 +113,14 @@
             padding: 10px;
         }
 
+        .container_card_form form select {
+            width: calc(100% - 25px);
+            border: 0px;
+            height: 40px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
         .container_card_form_descricao span {
             font-style: normal;
             font-weight: 700;
@@ -145,18 +166,31 @@
 
     @section('scripts')
         <script>
-            async function cadastrar(){ 
-                window.location.href = "/cadastrar";
-            }
+            const select = document.querySelector("#documento");
+
+            select.addEventListener("change", () => {
+                let elInputCnpj = document.querySelector(".cnpj");
+                let elInputCpf  = document.querySelector(".cpf");
+                
+                if(select.value == "cpf"){
+                    elInputCpf.classList.remove("d-none");
+                    elInputCnpj.classList.add("d-none");
+                } else {
+                    elInputCnpj.classList.remove("d-none");
+                    elInputCpf.classList.add("d-none");
+                }
+            })
 
             async function submit(){
                 try {
-                    const formulario = document.querySelector("#formulario_login");
-                    const formData   = new FormData(formulario);
-                    const response   = await fetch("/login",{ method: "POST", body: formData });
-                    const person     = await response.json();
+                    const id_usuarios = sessionStorage.getItem("usuario_id");
+                    const formulario  = document.querySelector("#formulario_login");
+                    const formData    = new FormData(formulario);
+                    const response    = await fetch(`/cadastrar/pessoas/tipo/${id_usuarios}`,{ method: "POST", body: formData });
+                    const person      = await response.json();
                     // alert(person.message);
-                    if(person.status) window.location.href = '/home';
+                    sessionStorage.removeItem("usuario_id");
+                    window.location.href = '/home';
                 } catch (error) {
                     alert(error);
                 }

@@ -3,7 +3,7 @@
   <div class="container">
     <div class="container_header">
       <div class="container_header_logo">
-        <img src="/assets/img/logo.png" alt="logo">
+        <img src="{{URL::asset('assets/img/logo.png')}}" alt="logo">
       </div>
       <div class="container_header_alert">2</div>
     </div>
@@ -12,49 +12,49 @@
         <ul>
           <li class="active">
             <a href="/home">
-              <img src="assets/img/home.png" alt="home">
+              <img src="{{URL::asset('assets/img/home.png')}}" alt="home">
               Dashboard
             </a>
           </li>
 
-          <li>
+          <!-- <li>
             <a href="#">
               <img src="assets/img/supporters.png" alt="supporters">
               Clientes
             </a>
-          </li>
+          </li> -->
 
           <li>
-            <a href="#">
-              <img src="assets/img/apps.png" alt="apps">
+            <a href="/home/pedidos">
+              <img src="{{URL::asset('assets/img/apps.png')}}" alt="apps">
               Pedidos
             </a>
           </li>
 
           <li>
             <a href="#">
-              <img src="assets/img/payments.png" alt="payments">
+              <img src="{{URL::asset('assets/img/payments.png')}}" alt="payments">
               Finaceiro
             </a>
           </li>
 
           <li>
             <a href="#">
-              <img src="assets/img/communicate.png" alt="communicate">
+              <img src="{{URL::asset('assets/img/communicate.png')}}" alt="communicate">
               Consultoria
             </a>
           </li>
 
           <li>
             <a href="#">
-              <img src="assets/img/reports.png" alt="reports">
+              <img src="{{URL::asset('assets/img/reports.png')}}" alt="reports">
               Relatorios
             </a>
           </li>
 
           <li>
             <a href="#">
-              <img src="assets/img/notifications.png" alt="notifications">
+              <img src="{{URL::asset('assets/img/notifications.png')}}" alt="notifications">
               Alertas 
               <div class="qtdAlert">0</div>
             </a>
@@ -62,14 +62,14 @@
 
           <li>
             <a href="#">
-              <img src="assets/img/settings.png" alt="settings">
+              <img src="{{URL::asset('assets/img/settings.png')}}" alt="settings">
               Configuracoes
             </a>
           </li>
 
           <li>
-            <a href="#">
-              <img src="assets/img/logout.png" alt="logout">
+            <a href="/logout">
+              <img src="{{URL::asset('assets/img/logout.png')}}" alt="logout">
               Log out
             </a>
           </li>
@@ -77,33 +77,7 @@
         </ul>
       </div>
       <div class="container_content_dashboad">
-        <div class="container_content_dashboad_header">
-          <div class="container_content_dashboad_header_title">
-            <h3>Dashboard</h3>
-            <span>Dashboard</span>
-          </div>
-          <div class="container_content_dashboad_header_buttons">
-            <button>
-              <img src="assets/img/edit.png" alt="edit">
-              <div><span>Editar pedido</span></div>
-            </button>
-            <button class="activebtn">
-              <img src="assets/img/plus.png" alt="plus">
-              <div><span>Add pedido</span></div>
-            </button>
-          </div>
-        </div>
-
-        <div class="container_content_dashboad_box">
-          <div class="container_content_dashboad_box1">
-            <div class="card">
-              
-            </div>
-          </div>
-          <div class="container_content_dashboad_box2">
-
-          </div>
-        </div>
+        @yield('content_home')
       </div>
     </div>
   </div>
@@ -252,5 +226,52 @@
       border-radius: 5px;
       cursor: pointer;
     }
+
+    .modal {
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      width: 100%;
+      height: 100%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal_overlay {
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      background: #000;
+      opacity: 0.50;
+      width: 100%;
+      height: 100%;
+    }
+
+    .modal_content {
+      background: #FFF;
+      box-shadow: 25px 17.68px 114.72px rgba(0, 0, 0, 0.4);
+      height: calc(760px - 20px);
+      width: calc(1245px - 20px);
+      border-radius: 12px;
+      z-index: 1;
+    }
+
+    .modal_active {
+      display: flex;
+    }
   </style>
+
+    @section('scripts')
+      <script>
+        const navList = document.querySelectorAll(".container_content_navbar ul li");
+        navList.forEach(element => {
+          if(element.querySelector("a").href == window.location.href){
+            element.classList.add("active");
+          } else {
+            element.classList.remove("active");
+          }
+        });
+      </script>
+    @stop
 @stop

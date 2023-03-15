@@ -7,24 +7,22 @@
                     <img src="{{URL::asset('assets/img/logo.png')}}" alt="logo">
                 </div>
                 <div class="container_card_form_descricao">
-                    <span>Aumente significativamente suas vendas com as soluções digitais que oferecemos.</span>
+                    <span>Vamos configurar sua conta, leva só 1 minuto.</span>
                 </div>
                 <form id="formulario_login" action="/login" method="POST">
                     <div>
-                        <label for="email">E-email</label>
-                        <input type="email" name="email" id="email" placeholder="Digite seu email!">
+                        <label for="name">Nome completo</label>
+                        <input type="name" name="name" id="name" placeholder="Digite seu nome completo!">
                     </div>
 
                     <div>
-                        <label for="password">Senha</label>
-                        <input type="password" name="password" id="password" placeholder="Digite sua senha!">
-                        <a href="/recuperar-senha">Recuperação de senha</a>
+                        <label for="telefone">Telefone de contato</label>
+                        <input type="text" name="telefone" id="telefone" placeholder="Digite sua telefone!">
                     </div>
                 </form>
             </div>
             <div class="container_card_buttons">
-                <button type="button" onclick="cadastrar()">Cadastrar</button>
-                <button type="button" onclick="submit()">Login</button>
+                <button type="button" onclick="submit()">Avançar</button>
             </div>
         </div>
     </div>
@@ -145,18 +143,15 @@
 
     @section('scripts')
         <script>
-            async function cadastrar(){ 
-                window.location.href = "/cadastrar";
-            }
-
             async function submit(){
                 try {
-                    const formulario = document.querySelector("#formulario_login");
-                    const formData   = new FormData(formulario);
-                    const response   = await fetch("/login",{ method: "POST", body: formData });
-                    const person     = await response.json();
+                    const id_usuarios = sessionStorage.getItem("usuario_id");
+                    const formulario  = document.querySelector("#formulario_login");
+                    const formData = new FormData(formulario);
+                    const response = await fetch(`/cadastrar/pessoas/${id_usuarios}`,{ method: "POST", body: formData });
+                    const person   = await response.json();
                     // alert(person.message);
-                    if(person.status) window.location.href = '/home';
+                    window.location.href = '/cadastrar/pessoas/tipo';
                 } catch (error) {
                     alert(error);
                 }

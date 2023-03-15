@@ -11,12 +11,11 @@ class Home extends Controller
     public function index()
     {
         // dd(Auth::user());
-        // $posts = Post::with('user')->get();
-        return view('site.home',['title' => 'Home']);
+        return view('site.dashboard',['title' => 'DashBoard']);
     }
 
-    public function formulario()
+    public function pedido()
     {
-        return view('site.formulario',['title' => 'formulario']);
+        return view('site.pedidos',['title' => 'Pedidos']);
     }
 }

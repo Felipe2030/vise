@@ -4,7 +4,7 @@
         <div class="container_card">
             <div class="container_card_form">
                 <div class="container_card_form_header">
-                    <img src="{{URL::asset('assets/img/logo.png')}}" alt="logo">
+                    <img src="assets/img/logo.png" alt="logo">
                 </div>
                 <div class="container_card_form_descricao">
                     <span>Aumente significativamente suas vendas com as soluções digitais que oferecemos.</span>
@@ -14,17 +14,11 @@
                         <label for="email">E-email</label>
                         <input type="email" name="email" id="email" placeholder="Digite seu email!">
                     </div>
-
-                    <div>
-                        <label for="password">Senha</label>
-                        <input type="password" name="password" id="password" placeholder="Digite sua senha!">
-                        <a href="/recuperar-senha">Recuperação de senha</a>
-                    </div>
                 </form>
             </div>
             <div class="container_card_buttons">
-                <button type="button" onclick="cadastrar()">Cadastrar</button>
-                <button type="button" onclick="submit()">Login</button>
+                <button type="button" onclick="voltar()">Voltar</button>
+                <button type="button" onclick="submit()">Enviar</button>
             </div>
         </div>
     </div>
@@ -145,21 +139,17 @@
 
     @section('scripts')
         <script>
-            async function cadastrar(){ 
-                window.location.href = "/cadastrar";
-            }
+            async function voltar(){  window.location.href = "/"; }
 
             async function submit(){
-                try {
-                    const formulario = document.querySelector("#formulario_login");
-                    const formData   = new FormData(formulario);
-                    const response   = await fetch("/login",{ method: "POST", body: formData });
-                    const person     = await response.json();
-                    // alert(person.message);
-                    if(person.status) window.location.href = '/home';
-                } catch (error) {
-                    alert(error);
-                }
+                // try {
+                //     const formulario = document.querySelector("#formulario_login");
+                //     const formData = new FormData(formulario);
+                //     const response = await fetch("/login",{ method: "POST", body: formData });
+                //     console.log(await response.json())
+                // } catch (error) {
+                //     alert(error);
+                // }
             }
         </script>
     @stop
