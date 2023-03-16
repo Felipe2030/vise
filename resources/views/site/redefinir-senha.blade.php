@@ -148,7 +148,9 @@
                     const formulario = document.querySelector("#formulario_login");
                     const formData = new FormData(formulario);
                     const response = await fetch(`/redefinir/${token}`,{ method: "POST", body: formData });
-                    console.log(await response.json())
+                    const person = await response.json();
+                    alert(person.message);
+                    if(person.status) window.location.href = '/';
                 } catch (error) {
                     alert(error);
                 }

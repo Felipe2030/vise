@@ -146,7 +146,7 @@
                     const formulario = document.querySelector("#formulario_login");
                     const formData = new FormData(formulario);
                     const response = await fetch("/recuperar",{ method: "POST", body: formData });
-                    console.log(await response.json())
+                    alert(person.message);
                 } catch (error) {
                     alert(error);
                 }
