@@ -15,10 +15,10 @@ class status_usuarios extends Seeder
     public function run()
     {
         $status_usuarios = [
-            ["nome" => "cadastrando"],
-            ["nome" => "cadastrando pessoa"],
-            ["nome" => "cadastrando pessoa tipo"],
-            ["nome" => "cadastro concluido"]
+            ["id" => 1,"nome" => "cadastrando"],
+            ["id" => 2,"nome" => "cadastrando pessoa"],
+            ["id" => 3,"nome" => "cadastrando pessoa tipo"],
+            ["id" => 4,"nome" => "cadastro concluido"]
         ];
 
         foreach ($status_usuarios as $key => $data) {

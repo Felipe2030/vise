@@ -9,10 +9,11 @@
                 <div class="container_card_form_descricao">
                     <span>Aumente significativamente suas vendas com as soluções digitais que oferecemos.</span>
                 </div>
-                <form id="formulario_login" action="/login" method="POST">
+                <form id="formulario_login" method="POST">
+                    <input id="token" type="hidden" name="token" value="{{$token}}">
                     <div>
-                        <label for="email">E-email</label>
-                        <input type="email" name="email" id="email" placeholder="Digite seu email!">
+                        <label for="password">Novo senha</label>
+                        <input type="password" name="password" id="password" placeholder="Digite sua nova senha!">
                     </div>
                 </form>
             </div>
@@ -139,13 +140,14 @@
 
     @section('scripts')
         <script>
+            const token = document.querySelector("#token").value;
             async function voltar(){  window.location.href = "/"; }
 
             async function submit(){
                 try {
                     const formulario = document.querySelector("#formulario_login");
                     const formData = new FormData(formulario);
-                    const response = await fetch("/recuperar",{ method: "POST", body: formData });
+                    const response = await fetch(`/redefinir/${token}`,{ method: "POST", body: formData });
                     console.log(await response.json())
                 } catch (error) {
                     alert(error);

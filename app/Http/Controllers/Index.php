@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Models\RecuperarSenhas;
 
 class Index extends Controller
 {
@@ -15,6 +16,20 @@ class Index extends Controller
     public function recuperar()
     {
         return view('site.recuperacao-senha', ['title' => 'Recuperar Senha']);
+    }
+
+    public function redefinir($token) 
+    {
+        $recuperar_senha = RecuperarSenhas::where('token', $token)->first();
+        $expiration = date_create($recuperar_senha['time']);
+        $now = date_create('now');
+        
+        if($now >= $expiration){
+            echo "Token invalid";
+            exit;
+        }
+
+        return view('site.redefinir-senha', ['title' => 'Redefinir Senha', 'token' => $token]);
     }
 
     public function cadastrar()
