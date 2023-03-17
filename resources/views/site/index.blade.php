@@ -23,8 +23,8 @@
                 </form>
             </div>
             <div class="container_card_buttons">
-                <button type="button" onclick="cadastrar()">Cadastrar</button>
-                <button type="button" onclick="submit()">Login</button>
+                <button type="button" id="cadastrar">Cadastrar</button>
+                <button type="button" id="enviar">Login</button>
             </div>
         </div>
     </div>
@@ -145,21 +145,18 @@
 
     @section('scripts')
         <script>
-            async function cadastrar(){ 
-                window.location.href = "/cadastrar";
-            }
+            let cadastrar = document.querySelector("#cadastrar");
+            let enviar = document.querySelector("#enviar");
 
-            async function submit(){
-                try {
-                    const formulario = document.querySelector("#formulario_login");
-                    const formData   = new FormData(formulario);
-                    const response   = await fetch("/login",{ method: "POST", body: formData });
-                    const person     = await response.json();
-                    // alert(person.message);
-                    if(person.status) window.location.href = '/home';
-                } catch (error) {
-                    alert(error);
-                }
+            cadastrar.onclick = async () => window.location.href = '/cadastrar';
+            enviar.onclick    = async () => {
+                const formulario = document.querySelector("#formulario_login");
+                const formData   = new FormData(formulario);
+                const response   = await fetch("/login",{ method: "POST", body: formData });
+                const person     = await response.json();
+
+                if(!person.status) alert(person.message);
+                else window.location.href = '/home';
             }
         </script>
     @stop

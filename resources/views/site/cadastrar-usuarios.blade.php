@@ -23,7 +23,7 @@
                 </form>
             </div>
             <div class="container_card_buttons">
-                <button type="button" onclick="submit()">Criar conta grátis</button>
+                <button type="button" id="enviar">Criar conta grátis</button>
             </div>
         </div>
     </div>
@@ -144,18 +144,17 @@
 
     @section('scripts')
         <script>
-            async function submit(){
-                try {
-                    const formulario = document.querySelector("#formulario_login");
-                    const formData = new FormData(formulario);
-                    const response = await fetch("/cadastrar",{ method: "POST", body: formData });
-                    const person   = await response.json();
-                    // alert(person.message);
-                    sessionStorage.setItem("usuario_id", person.id_usuarios);
-                    window.location.href = '/cadastrar/pessoas';
-                } catch (error) {
-                    alert(error);
-                }
+            let enviar = document.querySelector("#enviar");
+
+            enviar.onclick    = async () => {
+                const formulario = document.querySelector("#formulario_login");
+                const formData   = new FormData(formulario);
+                const response   = await fetch("/cadastrar",{ method: "POST", body: formData });
+                const person     = await response.json();
+
+                alert(person.message);
+                sessionStorage.setItem("usuario_id", person.id_usuarios);
+                if(person.status) window.location.href = '/cadastrar/pessoas';
             }
         </script>
     @stop

@@ -1,8 +1,6 @@
 @extends('site.home')
 @section('content_home')
 
-@include('site.modal.cadastro-pedidos')
-
 <div class="container_content_dashboad_header">
     <div class="container_content_dashboad_header_title">
     <h3>Pedidos</h3>
@@ -36,12 +34,6 @@
 </div>
 
 <script>
-    const btnOpen = document.querySelector(".open");
-    const modal = document.querySelector(".modal");
-    
-    btnOpen.addEventListener("click", () => {
-        modal.classList.remove("d-none");
-        modal.classList.add("d-flex");
-    })
+ 
 </script>
 @stop

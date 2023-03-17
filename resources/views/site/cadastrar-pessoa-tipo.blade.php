@@ -23,19 +23,19 @@
                         </select>
                     </div>
 
-                    <div class="cnpj">
+                    <div class="campos">
                         <label>Qual o número do CNPJ ?</label>
-                        <input type="text" name="numero_documento" placeholder="Digite sua cnpj !">
+                        <input type="text" name="numero_documento" placeholder="Digite sua CNPJ!">
                     </div>
 
-                    <div class="cpf d-none">
+                    <div class="campos d-none">
                         <label>Qual o número do CPF ?</label>
-                        <input type="text" name="numero_documento" placeholder="Digite sua cpf !">
+                        <input type="text" name="numero_documento" placeholder="Digite seu CPF!">
                     </div>                   
                 </form>
             </div>
             <div class="container_card_buttons">
-                <button type="button" onclick="submit()">Avançar</button>
+                <button type="button" id="enviar">Avançar</button>
             </div>
         </div>
     </div>
@@ -166,34 +166,27 @@
 
     @section('scripts')
         <script>
-            const select = document.querySelector("#documento");
+            let select    = document.querySelector("#documento");
+            let enviar    = document.querySelector("#enviar");
+            let campos    = document.querySelectorAll(".campos");
 
-            select.addEventListener("change", () => {
-                let elInputCnpj = document.querySelector(".cnpj");
-                let elInputCpf  = document.querySelector(".cpf");
-                
-                if(select.value == "cpf"){
-                    elInputCpf.classList.remove("d-none");
-                    elInputCnpj.classList.add("d-none");
-                } else {
-                    elInputCnpj.classList.remove("d-none");
-                    elInputCpf.classList.add("d-none");
-                }
-            })
+            select.onchange = async () => {
+                campos.forEach(campo => {
+                    if(campo.classList.value.split(" ").includes("d-none")) campo.classList.remove("d-none");
+                    else campo.classList.add("d-none"); 
+                });
+            }
 
-            async function submit(){
-                try {
-                    const id_usuarios = sessionStorage.getItem("usuario_id");
-                    const formulario  = document.querySelector("#formulario_login");
-                    const formData    = new FormData(formulario);
-                    const response    = await fetch(`/cadastrar/pessoas/tipo/${id_usuarios}`,{ method: "POST", body: formData });
-                    const person      = await response.json();
-                    // alert(person.message);
-                    sessionStorage.removeItem("usuario_id");
-                    window.location.href = '/home';
-                } catch (error) {
-                    alert(error);
-                }
+            enviar.onclick        = async () => {
+                const id_usuarios = sessionStorage.getItem("usuario_id");
+                const formulario  = document.querySelector("#formulario_login");
+                const formData    = new FormData(formulario);
+                const response    = await fetch(`/cadastrar/pessoas/tipo/${id_usuarios}`,{ method: "POST", body: formData });
+                const person      = await response.json();
+
+                alert(person.message);
+                sessionStorage.removeItem("usuario_id");
+                if(person.status) window.location.href = '/home';
             }
         </script>
     @stop

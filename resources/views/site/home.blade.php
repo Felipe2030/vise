@@ -5,7 +5,12 @@
       <div class="container_header_logo">
         <img src="{{URL::asset('assets/img/logo.png')}}" alt="logo">
       </div>
-      <div class="container_header_alert">2</div>
+      <div class="container_header_alert">
+        <button type="button" id="geral">
+          <div class="imagem"></div>
+          <span>Felipe Henrique</span>
+        </button>
+      </div>
     </div>
     <div class="container_content">
       <div class="container_content_navbar">
@@ -226,52 +231,44 @@
       border-radius: 5px;
       cursor: pointer;
     }
-
-    .modal {
-      position: absolute;
-      left: 0px;
-      top: 0px;
-      width: 100%;
-      height: 100%;
-      display: none;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .modal_overlay {
-      position: absolute;
-      left: 0px;
-      top: 0px;
-      background: #000;
-      opacity: 0.50;
-      width: 100%;
-      height: 100%;
-    }
-
-    .modal_content {
-      background: #FFF;
-      box-shadow: 25px 17.68px 114.72px rgba(0, 0, 0, 0.4);
-      height: calc(760px - 20px);
-      width: calc(1245px - 20px);
-      border-radius: 12px;
-      z-index: 1;
-    }
-
-    .modal_active {
-      display: flex;
-    }
   </style>
 
     @section('scripts')
       <script>
         const navList = document.querySelectorAll(".container_content_navbar ul li");
+
         navList.forEach(element => {
-          if(element.querySelector("a").href == window.location.href){
-            element.classList.add("active");
-          } else {
-            element.classList.remove("active");
-          }
+          if(element.querySelector("a").href == window.location.href) element.classList.add("active");
+          else element.classList.remove("active");
         });
+
+        async function modalCadastroGeral(){
+          const response  = await fetch("/home/modal/modal-cadastro-geral",{method: "GET"});
+          const person    = await response.text();
+          const modal     = document.createElement('div');
+          modal.classList.add("open-modal");
+          modal.innerHTML = person;
+          document.body.appendChild(modal);
+
+          const scriptElement = modal.querySelector("script");
+          const scriptContent = scriptElement.textContent;
+          eval(scriptContent);
+        }
+
+        const btnGeral = document.querySelector("#geral");
+
+        btnGeral.onclick = async () => {
+          await modalCadastroGeral();
+        }
+
+        window.onload = async () => {
+          const response_user = await fetch("/auth/usuario",{method: "GET"});
+          const person_user   = await response_user.json();
+
+          if(person_user.id_status_usuarios != 4){
+            await modalCadastroGeral();
+          }
+        }
       </script>
     @stop
 @stop

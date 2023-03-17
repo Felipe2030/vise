@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
 * , html {
     margin: 0px;
     padding: 0px;
+    font-family: "Montserrat";
 }
 
-li {
-    list-style: none;
-}
+li { list-style: none; }
+.d-none {  display: none; }

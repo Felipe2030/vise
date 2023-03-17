@@ -10,8 +10,7 @@ class Home extends Controller
 {
     public function index()
     {
-        // dd(Auth::user());
-        return view('site.dashboard',['title' => 'DashBoard']);
+        return view('site.dashboard',['title' => 'Dashboard']);
     }
 
     public function pedido()

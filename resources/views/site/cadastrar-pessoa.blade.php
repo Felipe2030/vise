@@ -22,7 +22,7 @@
                 </form>
             </div>
             <div class="container_card_buttons">
-                <button type="button" onclick="submit()">Avançar</button>
+                <button type="button" id="enviar">Avançar</button>
             </div>
         </div>
     </div>
@@ -143,18 +143,18 @@
 
     @section('scripts')
         <script>
-            async function submit(){
-                try {
-                    const id_usuarios = sessionStorage.getItem("usuario_id");
-                    const formulario  = document.querySelector("#formulario_login");
-                    const formData = new FormData(formulario);
-                    const response = await fetch(`/cadastrar/pessoas/${id_usuarios}`,{ method: "POST", body: formData });
-                    const person   = await response.json();
-                    // alert(person.message);
-                    window.location.href = '/cadastrar/pessoas/tipo';
-                } catch (error) {
-                    alert(error);
-                }
+            let enviar = document.querySelector("#enviar");
+
+            enviar.onclick    = async () => {
+                const id_usuarios = sessionStorage.getItem("usuario_id");
+                const formulario  = document.querySelector("#formulario_login");
+                const formData    = new FormData(formulario);
+                const response    = await fetch(`/cadastrar/pessoas/${id_usuarios}`,{ method: "POST", body: formData });
+                const person      = await response.json();
+
+                alert(person.message);
+
+                if(person.status) window.location.href = '/cadastrar/pessoas/tipo';
             }
         </script>
     @stop

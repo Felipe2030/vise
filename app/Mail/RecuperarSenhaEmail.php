@@ -26,6 +26,6 @@ class RecuperarSenhaEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('mails.recuper_senha');
+        return $this->view('mails.recuper-senha');
     }
 }

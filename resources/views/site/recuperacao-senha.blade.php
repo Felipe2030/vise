@@ -17,8 +17,8 @@
                 </form>
             </div>
             <div class="container_card_buttons">
-                <button type="button" onclick="voltar()">Voltar</button>
-                <button type="button" onclick="submit()">Enviar</button>
+                <button type="button" id="voltar">Voltar</button>
+                <button type="button" id="enviar">Enviar</button>
             </div>
         </div>
     </div>
@@ -139,18 +139,19 @@
 
     @section('scripts')
         <script>
-            async function voltar(){  window.location.href = "/"; }
+            let voltar = document.querySelector("#voltar");
+            let enviar = document.querySelector("#enviar");
 
-            async function submit(){
-                try {
-                    const formulario = document.querySelector("#formulario_login");
-                    const formData = new FormData(formulario);
-                    const response = await fetch("/recuperar",{ method: "POST", body: formData });
-                    const person = await response.json();
-                    alert(person.message);
-                } catch (error) {
-                    alert(error);
-                }
+            voltar.onclick = async () => window.location.href = '/';
+            enviar.onclick = async () => {
+                const formulario = document.querySelector("#formulario_login");
+                const formData   = new FormData(formulario);
+                const response   = await fetch("/recuperar",{ method: "POST", body: formData });
+                const person     = await response.json();
+                
+                alert(person.message);
+
+                if(person.status) window.location.href = '/';
             }
         </script>
     @stop

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\RecuperarSenhas;
 
@@ -45,5 +44,10 @@ class Index extends Controller
     public function cadastrarPessoaTipo()
     {
         return view('site.cadastrar-pessoa-tipo', ['title' => 'Cadastrar Tipo Pessoa']);
+    }
+
+    public function modal($page)
+    {
+        return view('components.'.$page, ['title' => 'Modal']);
     }
 }
